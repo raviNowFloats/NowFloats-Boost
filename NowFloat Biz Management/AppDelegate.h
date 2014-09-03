@@ -166,6 +166,10 @@ extern NSString *const noAdsUrl;
 
 extern NSString *const changePasswordUrl;
 
+extern NSString *const isProPack;
+
+extern NSString *const ttbDomainCombo;
+
 extern BOOL isReferScreen;
 
 - (void)openSession:(BOOL)isAdmin;

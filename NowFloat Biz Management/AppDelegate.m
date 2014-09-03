@@ -30,6 +30,7 @@
 #import "ChangePasswordController.h"
 #import "ProductDetails.h"
 #import "BusinessProfileController.h"
+#import "ProPackController.h"
 #import "AarkiContact.h"
 #import "Helpshift.h"
 #import <MobileAppTracker/MobileAppTracker.h>
@@ -45,7 +46,7 @@
 #if BOOST_PLUS
 #define MIXPANEL_TOKEN @"78860f1e5c7e3bc55a2574f42d5efd30" //Boost Plus
 #else
-#define MIXPANEL_TOKEN @"be4edc1ffc2eb228f1583bd396787c9a" //Boost Lite
+#define MIXPANEL_TOKEN @"59912051c6d0d2dab02aa12813ea022a" //Boost Lite
 #endif
 
 NSString *const bundleUrl = @"com.biz.nowfloats";
@@ -63,6 +64,9 @@ NSString *const referAfriendUrl = @"refer";
 NSString *const noAdsUrl = @"nfstorenoads";
 NSString *const changePasswordUrl = @"changepassword";
 NSString *const newUpdate = @"upgrade";
+NSString *const isProPack = @"proPack";
+NSString *const ttbDomainCombo = @"ttbDomainCombo";
+
 
 
 
@@ -731,6 +735,18 @@ NSString *const newUpdate = @"upgrade";
          [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/in/app/nowfloats-boost/id639599562"]];
         return true;
     }
+    else if ([url isEqual:[NSURL URLWithString:@""]])
+    {
+        return true;
+    }
+    else if ([url isEqual:[NSURL URLWithString:@""]])
+    {
+        return true;
+    }
+    else if ([url isEqual:[NSURL URLWithString:@""]])
+    {
+        return true;
+    }
     else
     {
         return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication fallbackHandler:^(FBAppCall *call)
@@ -784,11 +800,40 @@ NSString *const newUpdate = @"upgrade";
          [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/in/app/nowfloats-boost/id639599562"]];
         
     }
+    else if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,isProPack]]])
+    {
+        ProPackController *BAddress = [[ProPackController alloc] initWithNibName:@"ProPackController" bundle:nil];
+        
+         [mixpanel track:@"buyProPack_fromNotification"];
+        
+        
+        isGoingToStore = YES;
+        isDetailView = YES;
+        [storeDetailDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"isFromDeeplink"];
+        DeepLinkController = BAddress;
+        
+        
+    }
+    else if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,ttbDomainCombo]]])
+    {
+        BizStoreDetailViewController *BAddress = [[BizStoreDetailViewController alloc] initWithNibName:@"BizStoreDetailViewController" bundle:nil];
+        
+        [mixpanel track:@"buyTTBDomain_fromNotification"];
+        
+        BAddress.selectedWidget=1100;
+        
+        isGoingToStore = YES;
+        isDetailView = YES;
+        [storeDetailDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"isFromDeeplink"];
+        DeepLinkController = BAddress;
+        
+        
+    }
     else if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,buySeo]]])
     {
         BizStoreDetailViewController *BAddress = [[BizStoreDetailViewController alloc] initWithNibName:@"BizStoreDetailViewController" bundle:nil];
         
-         [mixpanel track:@"buySEO_fromNotification"];
+        [mixpanel track:@"buySEO_fromNotification"];
         
         BAddress.selectedWidget=1008;
         
@@ -1261,7 +1306,7 @@ NSString *const newUpdate = @"upgrade";
     token = [token stringByReplacingOccurrencesOfString:@"<" withString:@""];
 
     
-     [[Helpshift sharedInstance] registerDeviceToken:deviceTokenData];
+    [[Helpshift sharedInstance] registerDeviceToken:deviceTokenData];
     
     [userDefaults setObject:token forKey:@"apnsTokenNFBoost"];
     
