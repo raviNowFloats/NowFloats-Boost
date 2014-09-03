@@ -57,8 +57,6 @@
 #import "ChangePasswordController.h"
 #import "ReferFriendViewController.h"
 #import "DeleteFloatController.h"
-#import "BizMessageMenuViewController.h"
-#import "CHTumblrMenuView.h"
 #import "HomeViewMsgCell.h"
 #import "RIATipsController.h"
 #import "RIATips1Controller.h"
@@ -3594,7 +3592,6 @@ typedef enum
     
     UIImageView *animateImgView = [[UIImageView alloc]init];
     
-    NSString *_imageUriString;
     if(headArray.count > 0)
     {
         
@@ -5963,55 +5960,10 @@ typedef enum
 
 - (IBAction)showMenu:(id)sender
 {
-    [self performSelector:@selector(showMenu) withObject:self afterDelay:0.2f];
+    
     
 }
 
-
-- (void)showMenu
-{
-    
-    CHTumblrMenuView *menuView = [[CHTumblrMenuView alloc] init];
-    menuView.backgroundColor = [[UIColor whiteColor]
-                                colorWithAlphaComponent:0.45];
-    
-    
-    menuView.opaque = NO;
-    menuView.backgroundColor = [UIColor clearColor];
-    
-    UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 600)];
-    
-    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    toolbar.barStyle = UIBarStyleDefault;
-    
-    [menuView insertSubview:toolbar atIndex:0];
-    
-    
-    
-    
-    [menuView addMenuItemWithTitle:@"" andIcon:[UIImage imageNamed:@"facebook-icon.png"] andSelectedBlock:^{
-       
-        self.view.backgroundColor = [UIColor whiteColor];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
-    [menuView addMenuItemWithTitle:@"" andIcon:[UIImage imageNamed:@"twitter-icon.png"] andSelectedBlock:^{
-    
-        
-        
-        CATransition *animation = [CATransition animation];
-        [animation setDuration:0.5];
-        [animation setType:kCATransitionPush];
-        [animation setSubtype:kCATransitionFromTop];
-        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-        BizMessageMenuViewController *sObj=[[BizMessageMenuViewController alloc] initWithNibName:@"BizMessageMenuViewController" bundle:nil];
-        [self presentViewController:sObj animated:YES completion:nil];
-        [[sObj.view layer] addAnimation:animation forKey:@"SwitchToView1"];
-        
-        
-    }];
-    
-    [menuView show];
-}
 
 
 

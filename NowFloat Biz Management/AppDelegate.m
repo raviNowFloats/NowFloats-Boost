@@ -33,6 +33,7 @@
 #import "ProPackController.h"
 #import "AarkiContact.h"
 #import "Helpshift.h"
+
 #import <MobileAppTracker/MobileAppTracker.h>
 #import <AdSupport/AdSupport.h>
 
@@ -211,22 +212,13 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     [MobileAppTracker initializeWithMATAdvertiserId:@"22454"
                                    MATConversionKey:@"4098a67cc222eadf2a6aa91295786c9c"];
     
-    // Pass the Apple Identifier for Advertisers (IFA) to MAT; enables accurate 1-to-1 attribution.
-    // REQUIRED for attribution on iOS devices.
+   
     [MobileAppTracker setAppleAdvertisingIdentifier:[[ASIdentifierManager sharedManager] advertisingIdentifier]
                          advertisingTrackingEnabled:[[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]];
     
-    // If your app already has a pre-existing user base before you implement the MAT SDK, then
-    // identify the pre-existing users with this code snippet.
-    // Otherwise, MAT counts your pre-existing users as new installs the first time they run your app.
-    // Omit this section if you're upgrading to a newer version of the MAT SDK.
-    // This section only applies to NEW implementations of the MAT SDK.
-    //BOOL isExistingUser = ...
-    //if (isExistingUser) {
-    //    [MobileAppTracker setExistingUser:YES];
-    //}
     
-  
+    
+     [Helpshift installForApiKey:@"e82cbd5ed826954360a14b6059c34d50" domainName:@"nowfloatsboost.helpshift.com" appID:@"nowfloatsboost_platform_20140522103042479-e152d06d1a1ce2f"];
     
 
     UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -247,7 +239,7 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     
     LeftViewController *rearViewController=[[LeftViewController  alloc] initWithNibName:@"LeftViewController" bundle:nil];
     
-    [Helpshift installForApiKey:@"e82cbd5ed826954360a14b6059c34d50" domainName:@"nowfloatsboost.helpshift.com" appID:@"nowfloatsboost_platform_20140522103042479-e152d06d1a1ce2f"];
+   
     
      FileManagerHelper *fHelper=[[FileManagerHelper alloc]init];
     
@@ -358,8 +350,6 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     if(launchOptions != nil)
     {        
         frntNavigationController =  (id)revealController.frontViewController;
-        
-       // remoteNotify = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
        
        if([launchOptions objectForKey:UIApplicationLaunchOptionsURLKey] != nil)
         {
@@ -431,8 +421,6 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     
 }
 
-
-
 -(void)enterButtonClicked
 {
     GetFpDetails *getDetails=[[GetFpDetails alloc]init];
@@ -441,8 +429,6 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     
     [getDetails fetchFpDetail];
 }
-
-
 
 
 -(void)downloadFinished
@@ -454,151 +440,13 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
   
 }
 
+
 -(void)downloadFailedWithError
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"com.biz.nowfloats://"]];
 }
 
-- (void)openSession:(BOOL)isAdmin
-{
-    isForFBPageAdmin=isAdmin;
-    
-    NSArray *permissions =  [NSArray arrayWithObjects:
-                             @"publish_stream",
-                             @"manage_pages"
-                             ,nil];
-    
-    
 
-    [FBSession openActiveSessionWithPublishPermissions:permissions defaultAudience:FBSessionDefaultAudienceEveryone allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState state, NSError *error)
-     {
-        //[self sessionStateChanged:session state:state error:error];
-
-    }];
-    
-}
-
-
-- (void)sessionStateChanged:(FBSession *)session
-                      state:(FBSessionState)state
-                      error:(NSError *)error
-{    switch (state)
-    {
-        case FBSessionStateOpen:
-        {
-            if (isForFBPageAdmin)
-            {
-                [self connectAsFbPageAdmin];
-            }
-            
-            else
-            {
-                [self populateUserDetails];
-            }
-        }
-            
-        break;
-            
-        case FBSessionStateClosed:
-        case FBSessionStateClosedLoginFailed:
-        {
-            if (isForFBPageAdmin)
-            {
-                isFBPageAdminDeSelected=YES;
-            }
-            
-            else
-            {
-                isFBDeSelected=YES;            
-            }
-            [FBSession.activeSession closeAndClearTokenInformation];            
-        }
-        break;
-        default:
-        break;
-    }
-}
-
-
--(void)populateUserDetails
-{
-    NSString * accessToken = [[FBSession activeSession] accessTokenData].accessToken;
-    
-    [userDefaults setObject:accessToken forKey:@"NFManageFBAccessToken"];
-    
-    [userDefaults synchronize];
-
-    [[FBRequest requestForMe] startWithCompletionHandler:
-    ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error)
-        {
-         if (!error)
-         {
-             [userDefaults setObject:[user objectForKey:@"id"] forKey:@"NFManageFBUserId"];
-             [userDefaults synchronize];
-             [FBSession.activeSession closeAndClearTokenInformation];
-         }
-         else
-         {
-             [self openSession:NO];
-         }
-        }
-     ];
-}
-
-
--(void)connectAsFbPageAdmin
-{
-    [[FBRequest requestForGraphPath:@"me/accounts"]
-     startWithCompletionHandler:
-     ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error)
-     {
-         if (!error)
-         {
-             //NSLog(@"user:%d",[[user objectForKey:@"data"] count]);
-
-             if ([[user objectForKey:@"data"] count]>0)
-             {                 
-                 NSMutableArray *userAdminInfo=[[NSMutableArray alloc]init];
-                 
-                 [userAdminInfo addObjectsFromArray:[user objectForKey:@"data"]];
-                 
-                 [self assignFbDetails:[user objectForKey:@"data"]];
-                 
-                 for (int i=0; i<[userAdminInfo count]; i++)
-                 {
-                     
-                     [fbUserAdminArray insertObject:[[userAdminInfo objectAtIndex:i]objectForKey:@"name" ] atIndex:i];
-                     
-                     [fbUserAdminAccessTokenArray insertObject:[[userAdminInfo objectAtIndex:i]objectForKey:@"access_token" ] atIndex:i];
-                     
-                     [fbUserAdminIdArray insertObject:[[userAdminInfo objectAtIndex:i]objectForKey:@"id" ] atIndex:i];                                          
-                 }
-                 
-                 [[NSNotificationCenter defaultCenter] postNotificationName:@"showAccountList" object:nil];                 
-             }
-             
-             else
-             {
-             
-                 UIAlertView *alerView=[[UIAlertView alloc]initWithTitle:@"Oops" message:@"You donot have pages to manage" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
-                 
-                 [alerView show];
-             
-                 alerView=nil;
-             
-             }
-             
-             [FBSession.activeSession closeAndClearTokenInformation];
-             
-         }
-         else
-         {
-             [self openSession:YES];
-         }
-     }
-     ];
-    
-}
 
 
 - (BOOL)application:(UIApplication *)application
@@ -609,8 +457,6 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
 
     [MobileAppTracker applicationDidOpenURL:[url absoluteString] sourceApplication:sourceApplication];
     
-    
-    //return [FBSession.activeSession handleOpenURL:url];
     if([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://"]])
     {
     
@@ -749,26 +595,12 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     }
     else
     {
-        return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication fallbackHandler:^(FBAppCall *call)
-                {
-                    if (call.accessTokenData)
-                    {
-                        if ([FBSession activeSession].isOpen)
-                        {
-                            NSLog(@"INFO: Ignoring app link because current session is open.");
-                        }
-                        
-                        else
-                            
-                        {
-                            [self handleAppLink:call.accessTokenData];
-                        }
-                    }
-        }];
+        return true;
     }
 
     
 }
+
 
 -(void)DeepLinkUrl:(NSURL *) url
 {
@@ -1044,6 +876,7 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     
 }
 
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 {
     if(alertView.tag == 101)
@@ -1076,45 +909,14 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
 }
 
 
-// Helper method to wrap logic for handling app links.
-- (void)handleAppLink:(FBAccessTokenData *)appLinkToken
-{
-    FBSession *appLinkSession = [[FBSession alloc] initWithAppID:nil
-                                                     permissions:nil
-                                                 defaultAudience:FBSessionDefaultAudienceNone
-                                                 urlSchemeSuffix:nil
-                                              tokenCacheStrategy:[FBSessionTokenCachingStrategy nullCacheInstance] ];
-    
-    [FBSession setActiveSession:appLinkSession];
-
-    // ... and open it from the App Link's Token.
-    [appLinkSession openFromAccessTokenData:appLinkToken
-                          completionHandler:^(FBSession *session, FBSessionState status, NSError *error)
-     {
-         if (error)
-         {
-             [_settingsController loginView:nil handleError:error];
-         }
-     }];
-}
 
 
 -(void)closeSession
 {
-
     [FBSession.activeSession closeAndClearTokenInformation];
-
 }
 
 
--(void)assignFbDetails:(NSArray*)sender
-{
-    
-    [userDefaults setObject:sender forKey:@"NFManageUserFBAdminDetails"];
-    
-    [userDefaults synchronize];
-    
-}
 
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -1162,23 +964,6 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     
         
     }
-
-    /*
-    NSMutableDictionary *userSetting=[[NSMutableDictionary alloc]init];
-    
-    [userSetting addEntriesFromDictionary:[fHelper openUserSettings]];
-
-    if ([userSetting objectForKey:@"2nd Login"]!=nil)
-    {
-        if ([[userSetting objectForKey:@"2nd Login"] boolValue])
-        {
-            if ([[userSetting allKeys] containsObject:@"SecondLoginTimeStamp"])
-            {
-                [fHelper updateUserSettingWithValue:appCloseDate forKey:@"SecondLogOutTimeStamp"];
-            }
-        }
-    }
-    */
     
     [self.window endEditing:YES];
     
@@ -1206,14 +991,7 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
    
-    //[FBSession.activeSession handleDidBecomeActive];
-    
-    [FBAppEvents activateApp];
 
-    // Facebook SDK * login flow *
-    // We need to properly handle activation of the application with regards to SSO
-    //  (e.g., returning from iOS 6.0 authorization dialog or from fast app switching).
-    [FBAppCall handleDidBecomeActive];
 
 }
 

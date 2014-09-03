@@ -614,26 +614,7 @@ static NSString * const kGPPClientID =
 }
 
 - (IBAction)shareWebsite:(id)sender {
-    //    if (version.floatValue<6.0)
-    //    {
-    //        UIActionSheet *selectAction=[[UIActionSheet alloc]initWithTitle:@"Select from" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Facebook",@"Twitter", nil];
-    //        selectAction.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-    //        selectAction.tag=1;
-    //        [selectAction showInView:self.view];
-    //    }
-    //
-    //    else
-    //    {
-    //        NSString* shareText = [NSString stringWithFormat:@"Woohoo! We have a new website. Visit it at %@.nowfloats.com",[appDelegate.storeTag lowercaseString]];
-    //
-    //        NSArray* dataToShare = @[shareText];
-    //
-    //        UIActivityViewController* activityViewController =
-    //        [[UIActivityViewController alloc] initWithActivityItems:dataToShare
-    //                                          applicationActivities:nil];
-    //
-    //        [self presentViewController:activityViewController animated:YES completion:nil];
-    //    }
+    
     
     
     UIActionSheet *selectAction=[[UIActionSheet alloc]initWithTitle:@"Select from" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Message",@"Facebook",@"Twitter",@"Whatsapp", nil];
