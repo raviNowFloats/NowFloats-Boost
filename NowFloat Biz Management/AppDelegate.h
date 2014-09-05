@@ -139,6 +139,8 @@
 
 @property(nonatomic,strong) NSMutableDictionary *feedFacebook;
 
+@property(nonatomic,strong)NSString* postScreenCasedText;
+
 extern NSString *const bundleUrl;
 
 extern NSString *const businessProfileUrl;
