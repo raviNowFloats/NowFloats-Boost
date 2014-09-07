@@ -72,6 +72,10 @@
 - (IBAction)sendToSubscibersOnClicked:(id)sender;
 
 - (IBAction)sendToSubscribersOffClicked:(id)sender;
+- (IBAction)imageDeleteAction:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *imageDeleteButton;
+@property (weak, nonatomic) IBOutlet UIView *navigationView;
+@property (weak, nonatomic) IBOutlet UIView *keyboardToolView;
 
 
 -(void)removeView;
@@ -83,6 +87,8 @@
 @property (strong, nonatomic) IBOutlet UIImageView *uploadPictureImgView;
 @property (strong, nonatomic) IBOutlet UITextView *createContentTextView;
 @property (strong, nonatomic) IBOutlet UILabel *createMessageLbl;
+@property (weak, nonatomic) IBOutlet UILabel *createMessageLbl2;
+
 @property (strong, nonatomic) IBOutlet UIButton *postUpdateBtn;
 
 
