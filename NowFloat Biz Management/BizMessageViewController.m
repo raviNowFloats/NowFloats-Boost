@@ -362,6 +362,15 @@ typedef enum
         }
     }
     
+    if([appDelegate.storeDetailDictionary objectForKey:@"isSiteMeter"] != nil)
+    {
+        if([appDelegate.storeDetailDictionary objectForKey:@"isSiteMeter"] == [NSNumber numberWithBool:YES])
+        {
+            [appDelegate.storeDetailDictionary removeObjectForKey:@"isSiteMeter"];
+            [self talkToUs];
+        }
+    }
+    
    
     if ([appDelegate.storeDetailDictionary objectForKey:@"movetoseoplugin"] == [NSNumber numberWithBool:YES])
     {
@@ -802,7 +811,6 @@ typedef enum
     
     //--Engage user with popups--//
     
-    NSLog(@"APp delegate is %@", appDelegate.storeWidgetArray);
     
     
     
@@ -1072,8 +1080,14 @@ typedef enum
     
     
     NSNumber *updateCount = [NSNumber numberWithInt:percentageComplete];
+    
+    int Level = [[appDelegate.storeDetailDictionary objectForKey:@"PaymentLevel"] intValue];
+    
+    NSNumber *PaymentLevel = [NSNumber numberWithInt:Level];
+
     NSDictionary *specialProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                        updateCount,@"$SiteScore",
+                                       PaymentLevel,@"Payment Level",
                                        nil];
     
     
@@ -1089,7 +1103,6 @@ typedef enum
     
     [self setTitle:@"Home"];
 
-    
     [self.navigationController pushViewController:siteMeter animated:YES];
     
 }

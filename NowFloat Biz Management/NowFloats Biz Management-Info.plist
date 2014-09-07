@@ -41,7 +41,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb193559690753525</string>
+				<string>fb539836972828386</string>
 			</array>
 		</dict>
 		<dict>
@@ -58,7 +58,7 @@
 	<key>CFBundleVersion</key>
 	<string>3.01</string>
 	<key>FacebookAppID</key>
-	<string>193559690753525</string>
+	<string>539836972828386</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>GothamMd.ttf</string>

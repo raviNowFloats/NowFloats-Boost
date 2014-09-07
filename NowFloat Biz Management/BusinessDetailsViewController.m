@@ -210,7 +210,7 @@
     [customButton setHidden:YES];
     
     
-       self.navigationController.navigationBarHidden=NO;
+    self.navigationController.navigationBarHidden=NO;
     
     self.navigationController.navigationBar.barTintColor = [UIColor colorFromHexCode:@"ffb900"];
     

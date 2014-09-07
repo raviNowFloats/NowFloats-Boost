@@ -48,6 +48,9 @@ BOOL isTimingEnabled;
     return self;
 }
 
+
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -116,6 +119,45 @@ BOOL isTimingEnabled;
     }
     
     categoryLabel.text      = [[appDelegate.storeDetailDictionary objectForKey:@"Categories" ]capitalizedString];
+    
+    
+    if([appDelegate.storeDetailDictionary objectForKey:@"isFromPushNotification"] == [NSNumber numberWithBool:YES])
+    {
+        if([appDelegate.storeDetailDictionary objectForKey:@"isSocialShareScreen"] == [NSNumber numberWithBool:YES])
+        {
+            [self showSocialSharing];
+            [appDelegate.storeDetailDictionary removeObjectForKey:@"isSocialShareScreen"];
+        }
+        else if ([appDelegate.storeDetailDictionary objectForKey:@"isHoursScreen"] == [NSNumber numberWithBool:YES])
+        {
+            [self showBizHours];
+            [appDelegate.storeDetailDictionary removeObjectForKey:@"isHoursScreen"];
+        }
+        else if ([appDelegate.storeDetailDictionary objectForKey:@"isLogoScreen"] == [NSNumber numberWithBool:YES])
+        {
+            [self showBizLogo];
+            [appDelegate.storeDetailDictionary removeObjectForKey:@"isLogoScreen"];
+        }
+        else if ([appDelegate.storeDetailDictionary objectForKey:@"isContactScreen"] == [NSNumber numberWithBool:YES])
+        {
+            [self editContactInfo];
+            [appDelegate.storeDetailDictionary removeObjectForKey:@"isContactScreen"];
+        }
+        else if ([appDelegate.storeDetailDictionary objectForKey:@"isChangeAddress"] == [NSNumber numberWithBool:YES])
+        {
+            [self editBizAddress];
+            [appDelegate.storeDetailDictionary removeObjectForKey:@"isChangeAddress"];
+        }
+        else
+        {
+            [self editProfile];
+           
+        }
+        
+        
+         [appDelegate.storeDetailDictionary removeObjectForKey:@"isFromPushNotification"];
+    }
+
 
 }
 
@@ -558,10 +600,7 @@ BOOL isTimingEnabled;
         
         [mixpanel track:@"Business Address"];
         
-        
-        BusinessAddressViewController *businessAddress=[[BusinessAddressViewController alloc]initWithNibName:@"BusinessAddressViewController" bundle:Nil];
-        
-        [self.navigationController pushViewController:businessAddress animated:YES];
+        [self editBizAddress];
     }
     else if (indexPath.row==1)
     {
@@ -569,47 +608,13 @@ BOOL isTimingEnabled;
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         
         [mixpanel track:@"Contact Information"];
-        BusinessContactViewController *businessContact=[[BusinessContactViewController alloc]initWithNibName:@"BusinessContactViewController" bundle:Nil];
         
-        [self.navigationController pushViewController:businessContact animated:YES];
+        [self editContactInfo];
     }
     else if (indexPath.row==2)
     {
         
-        if ([appDelegate.storeWidgetArray containsObject:@"TIMINGS"])
-        {
-            Mixpanel *mixpanel = [Mixpanel sharedInstance];
-            
-            [mixpanel track:@"Business Hour"];
-            BusinessHoursViewController *businessHour=[[BusinessHoursViewController alloc]initWithNibName:@"BusinessHoursViewController" bundle:Nil];
-            
-            [self.navigationController pushViewController:businessHour animated:YES];
-        }
-        else
-        {
-            if(![[appDelegate.storeDetailDictionary objectForKey:@"CountryPhoneCode"]  isEqual: @"91"])
-            {
-                popUpView=[[NFInstaPurchase alloc]init];
-                
-                popUpView.delegate=self;
-                
-                popUpView.selectedWidget=BusinessTimingsTag;
-                
-                [popUpView showInstantBuyPopUpView];
-            }
-            else
-            {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"It's Upgrade Time!" message:@"Check NowFloats Store for more information on upgrade plans" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Go To Store", nil];
-                
-                alertView.tag = 1897;
-                
-                [alertView show];
-                
-                alertView = nil;
-            }
-            
-        }
-        
+        [self showBizHours];
         
         
     }
@@ -619,23 +624,17 @@ BOOL isTimingEnabled;
         
         [mixpanel track:@"Business Logo button clicked"];
         
-        BusinessLogoUploadViewController *businessLogo=[[BusinessLogoUploadViewController alloc]initWithNibName:@"BusinessLogoUploadViewController" bundle:Nil];
-        
-        [self.navigationController pushViewController:businessLogo animated:YES];
+        [self showBizLogo];
     }
     else if (indexPath.row==4)
     {
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         
         [mixpanel track:@"Social Options button clicked"];
-        SettingsViewController *socialSharing=[[SettingsViewController alloc]initWithNibName:@"SettingsViewController" bundle:Nil];
-        
-        [self.navigationController pushViewController:socialSharing animated:YES];
+       
+        [self showSocialSharing];
         
     }
-    
-    
-    
     
 }
 
@@ -660,32 +659,112 @@ BOOL isTimingEnabled;
     }
 }
 
-- (void)didReceiveMemoryWarning
+- (IBAction)updateDescription:(id)sender
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)updateDescription:(id)sender {
     
     UIImage * btnImage1 = [UIImage imageNamed:@"Edit_On-Click.png"];
     
     editImage.image = btnImage1;
     
+    
+    [self editProfile];
+    
+}
+
+-(void)showSocialSharing
+{
+    
+    SettingsViewController *socialSharing=[[SettingsViewController alloc]initWithNibName:@"SettingsViewController" bundle:Nil];
+    
+    [self.navigationController pushViewController:socialSharing animated:YES];
+}
+
+-(void)showBizLogo
+{
+    BusinessLogoUploadViewController *businessLogo=[[BusinessLogoUploadViewController alloc]initWithNibName:@"BusinessLogoUploadViewController" bundle:Nil];
+    
+    [self.navigationController pushViewController:businessLogo animated:YES];
+}
+
+-(void)showBizHours
+{
+    if ([appDelegate.storeWidgetArray containsObject:@"TIMINGS"])
+    {
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        
+        [mixpanel track:@"Business Hour"];
+        BusinessHoursViewController *businessHour=[[BusinessHoursViewController alloc]initWithNibName:@"BusinessHoursViewController" bundle:Nil];
+        
+        [self.navigationController pushViewController:businessHour animated:YES];
+    }
+    else
+    {
+        if(![[appDelegate.storeDetailDictionary objectForKey:@"CountryPhoneCode"]  isEqual: @"91"])
+        {
+            popUpView=[[NFInstaPurchase alloc]init];
+            
+            popUpView.delegate=self;
+            
+            popUpView.selectedWidget=BusinessTimingsTag;
+            
+            [popUpView showInstantBuyPopUpView];
+        }
+        else
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"It's Upgrade Time!" message:@"Check NowFloats Store for more information on upgrade plans" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Go To Store", nil];
+            
+            alertView.tag = 1897;
+            
+            [alertView show];
+            
+            alertView = nil;
+        }
+        
+    }
+    
+}
+
+-(void)editContactInfo
+{
+ 
+    BusinessContactViewController *businessContact=[[BusinessContactViewController alloc]initWithNibName:@"BusinessContactViewController" bundle:Nil];
+    
+    [self.navigationController pushViewController:businessContact animated:YES];
+    
+}
+
+-(void)editProfile
+{
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     
-    [mixpanel track:@"Business Details"];
+    [mixpanel track:@"Business Details clicked"];
     
     
     BusinessDetailsViewController *businessDet=[[BusinessDetailsViewController alloc]initWithNibName:@"BusinessDetailsViewController" bundle:Nil];
     [self presentViewController:businessDet animated:YES completion:nil];
+}
+
+-(void)editBizAddress
+{
     
+    BusinessAddressViewController *businessAddress=[[BusinessAddressViewController alloc]initWithNibName:@"BusinessAddressViewController" bundle:Nil];
+    
+    [self.navigationController pushViewController:businessAddress animated:YES];
     
 }
+
+
 
 -(void)instaPurchaseViewDidClose
 {
     [popUpView removeFromSuperview];
     [self.businessProTable reloadData];
 }
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 @end

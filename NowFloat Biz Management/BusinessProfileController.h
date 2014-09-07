@@ -30,16 +30,33 @@
     AppDelegate *appDelegate;
 }
 @property (strong, nonatomic) IBOutlet UITableView *businessProTable;
+
 - (IBAction)updateDescription:(id)sender;
+
 @property (strong, nonatomic) IBOutlet UILabel *businessNameLabel;
 
 @property (strong, nonatomic) IBOutlet UILabel *categoryLabel;
+
 @property (strong, nonatomic) IBOutlet UIImageView *primaryImageView;
 
 @property (strong, nonatomic) IBOutlet UIView *businessDescView;
+
 @property (strong, nonatomic) IBOutlet UITextView *businessDescText;
+
 @property (strong, nonatomic) IBOutlet UIButton *editButton;
 
 @property (strong, nonatomic) IBOutlet UIImageView *editImage;
+
+-(void)editBizAddress;
+
+-(void)editProfile;
+
+-(void)editContactInfo;
+
+-(void)showBizHours;
+
+-(void)showBizLogo;
+
+-(void)showSocialSharing;
 
 @end

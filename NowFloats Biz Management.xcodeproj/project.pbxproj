@@ -1243,8 +1243,10 @@
 		FB0F4C9619AAE57900577206 /* Pro.png in Resources */ = {isa = PBXBuildFile; fileRef = FB0F4C9019AAE57900577206 /* Pro.png */; };
 		FB0F4C9719AAE57900577206 /* ttbDetail.png in Resources */ = {isa = PBXBuildFile; fileRef = FB0F4C9119AAE57900577206 /* ttbDetail.png */; };
 		FB0F4CA819AAEA9E00577206 /* sitemetercell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0F4CA619AAEA9E00577206 /* sitemetercell.m */; };
-		FB143FD919B469430053777F /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB143FD819B469430053777F /* MobileAppTracker.framework */; };
 		FB143FDE19B469B20053777F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB143FDD19B469B20053777F /* MobileCoreServices.framework */; };
+		FB143FEE19B9B8F60053777F /* MobileAppTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB143FED19B9B8F50053777F /* MobileAppTracker.framework */; };
+		FB143FF319BB9E080053777F /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB143FF119BB9E080053777F /* libAdIdAccess.a */; };
+		FB143FF419BB9E080053777F /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB143FF219BB9E080053777F /* libGoogleAnalyticsServices.a */; };
 		FB1C088419A6F3BD00192699 /* moveLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1C088119A6F3BD00192699 /* moveLeft.png */; };
 		FB1C088519A6F3BD00192699 /* moveRight.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1C088219A6F3BD00192699 /* moveRight.png */; };
 		FB1C088619A6F3BD00192699 /* newDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1C088319A6F3BD00192699 /* newDelete.png */; };
@@ -2365,8 +2367,20 @@
 		FB0F4CA519AAEA9E00577206 /* sitemetercell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sitemetercell.h; sourceTree = "<group>"; };
 		FB0F4CA619AAEA9E00577206 /* sitemetercell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sitemetercell.m; sourceTree = "<group>"; };
 		FB13DB521998CDD100D43FA4 /* SignupFBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupFBController.h; sourceTree = "<group>"; };
-		FB143FD819B469430053777F /* MobileAppTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileAppTracker.framework; path = "../../Downloads/MobileAppTracking-ios (1)/MobileAppTracker.framework"; sourceTree = "<group>"; };
 		FB143FDD19B469B20053777F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		FB143FED19B9B8F50053777F /* MobileAppTracker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileAppTracker.framework; path = "../../Downloads/MobileAppTracking-ios/MobileAppTracker.framework"; sourceTree = "<group>"; };
+		FB143FF119BB9E080053777F /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAdIdAccess.a; path = ../../Downloads/GoogleAnalyticsServicesiOS_3.09/libAdIdAccess.a; sourceTree = "<group>"; };
+		FB143FF219BB9E080053777F /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalyticsServices.a; path = ../../Downloads/GoogleAnalyticsServicesiOS_3.09/libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		FB143FF919BB9E6D0053777F /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		FB143FFA19BB9E6D0053777F /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		FB143FFB19BB9E6D0053777F /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
+		FB143FFC19BB9E6D0053777F /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		FB143FFD19BB9E6D0053777F /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		FB143FFE19BB9E6D0053777F /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		FB143FFF19BB9E6D0053777F /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		FB14400019BB9E6D0053777F /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		FB14400119BB9E6D0053777F /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		FB14400219BB9E6D0053777F /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		FB1C088119A6F3BD00192699 /* moveLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveLeft.png; sourceTree = "<group>"; };
 		FB1C088219A6F3BD00192699 /* moveRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moveRight.png; sourceTree = "<group>"; };
 		FB1C088319A6F3BD00192699 /* newDelete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newDelete.png; sourceTree = "<group>"; };
@@ -2618,8 +2632,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB143FF319BB9E080053777F /* libAdIdAccess.a in Frameworks */,
+				FB143FF419BB9E080053777F /* libGoogleAnalyticsServices.a in Frameworks */,
 				FB143FDE19B469B20053777F /* MobileCoreServices.framework in Frameworks */,
-				FB143FD919B469430053777F /* MobileAppTracker.framework in Frameworks */,
 				FB02632519AC90CF00518FFD /* iAd.framework in Frameworks */,
 				FB0A0E101998D83B00BCD3D7 /* Accelerate.framework in Frameworks */,
 				56A8318018962EB200D2FFC8 /* Security.framework in Frameworks */,
@@ -2646,6 +2661,7 @@
 				56A8317518962D6900D2FFC8 /* GoogleOpenSource.framework in Frameworks */,
 				4A9B165A1920EB5600C51BAB /* libHelpshift.a in Frameworks */,
 				56C1BF9C16B457B0000A4256 /* QuartzCore.framework in Frameworks */,
+				FB143FEE19B9B8F60053777F /* MobileAppTracker.framework in Frameworks */,
 				56A8317618962D6900D2FFC8 /* GooglePlus.framework in Frameworks */,
 				5638D8E91756387200141B28 /* OpenGLES.framework in Frameworks */,
 				5638D8E71756386800141B28 /* CoreVideo.framework in Frameworks */,
@@ -3171,8 +3187,11 @@
 		561EA46016B2648B008EB377 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FB143FF819BB9E6D0053777F /* Library */,
+				FB143FF119BB9E080053777F /* libAdIdAccess.a */,
+				FB143FF219BB9E080053777F /* libGoogleAnalyticsServices.a */,
+				FB143FED19B9B8F50053777F /* MobileAppTracker.framework */,
 				FB143FDD19B469B20053777F /* MobileCoreServices.framework */,
-				FB143FD819B469430053777F /* MobileAppTracker.framework */,
 				FB2666B619B069910044EF8F /* Mixpanel */,
 				FB02632419AC90CF00518FFD /* iAd.framework */,
 				FB0A0E0F1998D83B00BCD3D7 /* Accelerate.framework */,
@@ -4748,6 +4767,23 @@
 				FBE0ED02199CB9C40024B17C /* Menu-Burger.png */,
 			);
 			name = "Home View";
+			sourceTree = "<group>";
+		};
+		FB143FF819BB9E6D0053777F /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				FB143FF919BB9E6D0053777F /* GAI.h */,
+				FB143FFA19BB9E6D0053777F /* GAIDictionaryBuilder.h */,
+				FB143FFB19BB9E6D0053777F /* GAIEcommerceFields.h */,
+				FB143FFC19BB9E6D0053777F /* GAIEcommerceProduct.h */,
+				FB143FFD19BB9E6D0053777F /* GAIEcommerceProductAction.h */,
+				FB143FFE19BB9E6D0053777F /* GAIEcommercePromotion.h */,
+				FB143FFF19BB9E6D0053777F /* GAIFields.h */,
+				FB14400019BB9E6D0053777F /* GAILogger.h */,
+				FB14400119BB9E6D0053777F /* GAITrackedViewController.h */,
+				FB14400219BB9E6D0053777F /* GAITracker.h */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 		FB26662919AE2EDC0044EF8F /* Business Profile */ = {
@@ -6670,6 +6706,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/helpshift-sdk-ios-v4.4.0",
 					"$(PROJECT_DIR)/AarkiSDK",
+					/Users/ravindranaik/Downloads/GoogleAnalyticsServicesiOS_3.09,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -6730,6 +6767,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/helpshift-sdk-ios-v4.4.0",
 					"$(PROJECT_DIR)/AarkiSDK",
+					/Users/ravindranaik/Downloads/GoogleAnalyticsServicesiOS_3.09,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (

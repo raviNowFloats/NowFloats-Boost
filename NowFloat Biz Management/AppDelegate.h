@@ -171,7 +171,25 @@ extern NSString *const isProPack;
 
 extern NSString *const ttbDomainCombo;
 
+extern NSString *const changeInfo;
+
+extern NSString *const changeAddress;
+
+extern NSString *const editContact;
+
+extern NSString *const BizHours;
+
+extern NSString *const BizLogo;
+
+extern NSString *const socialSharing;
+
+extern NSString *const siteMeter;
+
 extern BOOL isReferScreen;
+
+- (void)openSession:(BOOL)isAdmin;
+
+-(void)connectAsFbPageAdmin;
 
 -(void)closeSession;
 

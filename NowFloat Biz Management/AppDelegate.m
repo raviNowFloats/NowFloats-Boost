@@ -30,9 +30,17 @@
 #import "ChangePasswordController.h"
 #import "ProductDetails.h"
 #import "BusinessProfileController.h"
+#import "BusinessDetailsViewController.h"
 #import "ProPackController.h"
 #import "AarkiContact.h"
 #import "Helpshift.h"
+#import "BusinessLogoUploadViewController.h"
+#import "BusinessHoursViewController.h"
+#import "BusinessContactViewController.h"
+#import "BusinessAddressViewController.h"
+#import "SitemeterDetailView.h"
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
 
 #import <MobileAppTracker/MobileAppTracker.h>
 #import <AdSupport/AdSupport.h>
@@ -67,6 +75,15 @@ NSString *const changePasswordUrl = @"changepassword";
 NSString *const newUpdate = @"upgrade";
 NSString *const isProPack = @"proPack";
 NSString *const ttbDomainCombo = @"ttbDomainCombo";
+NSString *const changeInfo = @"changeinfo";
+NSString *const changeAddress=@"bizAddress";
+NSString *const editContact = @"contact";
+NSString *const BizHours = @"bizhours";
+NSString *const BizLogo = @"bizlogo";
+NSString *const socialSharing= @"social";
+NSString *const sitemeter = @"sitemeter";
+
+
 
 
 
@@ -209,14 +226,28 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
        
     }
     
-    [MobileAppTracker initializeWithMATAdvertiserId:@"22454"
-                                   MATConversionKey:@"4098a67cc222eadf2a6aa91295786c9c"];
     
-   
-    [MobileAppTracker setAppleAdvertisingIdentifier:[[ASIdentifierManager sharedManager] advertisingIdentifier]
-                         advertisingTrackingEnabled:[[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]];
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
     
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 20;
     
+    // Optional: set Logger to VERBOSE for debug information.
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    
+    // Initialize tracker. Replace with your tracking ID.
+    [[GAI sharedInstance] trackerWithTrackingId:@"UA-35051129-12"];
+    
+ 
+        
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        
+        // Note that it's not necessary to set kGAICampaignKeyword for this email campaign.
+        NSDictionary *campaignData = [[NSDictionary alloc] initWithObjectsAndKeys:@"url",@"campaign", nil];
+        
+        // Note that the campaign data is set on the Dictionary, not the tracker.
+        [tracker send:[[[GAIDictionaryBuilder createAppView] setAll:campaignData] build]];
     
      [Helpshift installForApiKey:@"e82cbd5ed826954360a14b6059c34d50" domainName:@"nowfloatsboost.helpshift.com" appID:@"nowfloatsboost_platform_20140522103042479-e152d06d1a1ce2f"];
     
@@ -256,6 +287,13 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     
     else
     {
+//        [MobileAppTracker initializeWithMATAdvertiserId:@"22454"
+//                                       MATConversionKey:@"4098a67cc222eadf2a6aa91295786c9c"];
+//        
+//        
+//        [MobileAppTracker setAppleAdvertisingIdentifier:[[ASIdentifierManager sharedManager] advertisingIdentifier]
+//                             advertisingTrackingEnabled:[[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]];
+        
          navigationController = [[UINavigationController alloc] initWithRootViewController:tutorialController];
     }
     
@@ -401,8 +439,6 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     int i = 0;
     for(SKProduct * product in myProducts) {
         validProduct = [response.products objectAtIndex:i];
-        
-        NSLog(@"%@",product);
         
         NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
         [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
@@ -578,19 +614,78 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     }
     else if([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://upgrade"]])
     {
+        [self enterButtonClicked];
          [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/in/app/nowfloats-boost/id639599562"]];
         return true;
     }
-    else if ([url isEqual:[NSURL URLWithString:@""]])
+    else if ([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://proPack"]])
     {
+        emailUrl= [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,isProPack]];
+        
+        [self enterButtonClicked];
+        
         return true;
     }
-    else if ([url isEqual:[NSURL URLWithString:@""]])
+    else if ([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://ttbDomainCombo"]])
     {
+        emailUrl= [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,ttbDomainCombo]];
+        
+        [self enterButtonClicked];
         return true;
     }
-    else if ([url isEqual:[NSURL URLWithString:@""]])
+    else if ([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://changeinfo"]])
     {
+        emailUrl= [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,changeInfo]];
+        
+        [self enterButtonClicked];
+        return true;
+    }
+    else if ([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://bizAddress"]])
+    {
+        emailUrl= [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,changeAddress]];
+        
+        [self enterButtonClicked];
+        
+        return true;
+    }
+    else if ([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://contact"]])
+    {
+        emailUrl= [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,editContact]];
+        
+        [self enterButtonClicked];
+        
+        return true;
+    }
+    else if ([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://bizhours"]])
+    {
+        emailUrl= [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,BizHours]];
+        
+        [self enterButtonClicked];
+        
+        return true;
+    }
+    else if ([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://bizlogo"]])
+    {
+        emailUrl= [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,BizLogo]];
+        
+        [self enterButtonClicked];
+        
+        return true;
+    }
+    else if ([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://social"]])
+    {
+        emailUrl= [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,socialSharing]];
+        
+        [self enterButtonClicked];
+        
+        return true;
+    }
+    else if ([url isEqual:[NSURL URLWithString:@"com.biz.nowfloats://sitemeter"]])
+    {
+        emailUrl= [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,sitemeter]];
+        
+        [self enterButtonClicked];
+        
         return true;
     }
     else
@@ -612,6 +707,8 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     BOOL isDetailView;
     
     BOOL isDetailSettings = NO;
+    
+    BOOL isBusinessProfileDeepLink = NO;
     
     if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,storeUrl]]])
     {
@@ -829,6 +926,93 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
         isDetailView = NO;
         
     }
+    else if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,sitemeter]]])
+    {
+        BizMessageViewController *BAddress = [[BizMessageViewController alloc] initWithNibName:@"BizMessageViewController" bundle:nil];
+        
+        DeepLinkController = BAddress;
+        
+        [storeDetailDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"isSiteMeter"];
+        
+        isDetailView = NO;
+        
+    }
+    else if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,changeInfo]]])
+    {
+        BusinessDetailsViewController *BAddress = [[BusinessDetailsViewController alloc] initWithNibName:@"BusinessDetailsViewController" bundle:nil];
+        
+        DeepLinkController = BAddress;
+        
+        isDetailView = NO;
+        
+        isBusinessProfileDeepLink = YES;
+        
+    }
+    else if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,socialSharing]]])
+    {
+        SettingsViewController *BAddress = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
+        
+        DeepLinkController = BAddress;
+        
+        isDetailView = NO;
+        
+        isBusinessProfileDeepLink = YES;
+        
+        [storeDetailDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"isSocialShareScreen"];
+        
+    }
+    else if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,BizHours]]])
+    {
+        BusinessHoursViewController *BAddress = [[BusinessHoursViewController alloc] initWithNibName:@"BusinessHoursViewController" bundle:nil];
+        
+        DeepLinkController = BAddress;
+        
+        isDetailView = NO;
+        
+        isBusinessProfileDeepLink = YES;
+        
+        [storeDetailDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"isHoursScreen"];
+        
+    }
+    else if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,BizLogo]]])
+    {
+        BusinessLogoUploadViewController *BAddress = [[BusinessLogoUploadViewController alloc] initWithNibName:@"BusinessLogoUploadViewController" bundle:nil];
+        
+        DeepLinkController = BAddress;
+        
+        isDetailView = NO;
+        
+        isBusinessProfileDeepLink = YES;
+        
+        [storeDetailDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"isLogoScreen"];
+        
+    }
+    else if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,editContact]]])
+    {
+        BusinessContactViewController *BAddress = [[BusinessContactViewController alloc] initWithNibName:@"BusinessContactViewController" bundle:nil];
+        
+        DeepLinkController = BAddress;
+        
+        isDetailView = NO;
+        
+        isBusinessProfileDeepLink = YES;
+        
+        [storeDetailDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"isContactScreen"];
+        
+    }
+    else if([url isEqual:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",bundleUrl,changeAddress]]])
+    {
+        BusinessAddressViewController *BAddress = [[BusinessAddressViewController alloc] initWithNibName:@"BusinessAddressViewController" bundle:nil];
+        
+        DeepLinkController = BAddress;
+        
+        isDetailView = NO;
+        
+        isBusinessProfileDeepLink = YES;
+        
+        [storeDetailDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"isChangeAddress"];
+        
+    }
     else
     {
         isDetailView = NO;
@@ -857,18 +1041,47 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
         }
         else
         {
-            if([frntNavigationController.topViewController  isKindOfClass:[DeepLinkController class]])
+            
+            if(isBusinessProfileDeepLink)
             {
-                if( [frntNavigationController.topViewController respondsToSelector:@selector(viewDidAppear:)])
-                {
-                    [frntNavigationController.topViewController performSelector:@selector(viewDidAppear:) withObject:[NSNumber numberWithBool:YES]];
-                }
+                BusinessProfileController *profileScreen = [[BusinessProfileController alloc] init];
+                
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:profileScreen];
+                
+                [storeDetailDictionary setObject:[NSNumber numberWithBool:YES] forKey:@"isFromPushNotification"];
+                [revealController setFrontViewController:navController animated:NO];
+                
             }
             else
             {
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:DeepLinkController];
-                [revealController setFrontViewController:navController animated:NO];
+                if([storeDetailDictionary objectForKey:@"isSiteMeter"] == [NSNumber numberWithBool:YES])
+                {
+                    
+                    BizMessageViewController *sitemeterscreen = [[BizMessageViewController alloc] init];
+                    
+                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:sitemeterscreen];
+                    
+                    [revealController setFrontViewController:navController animated:NO];
+                   
+                }
+                else
+                {
+                    if([frntNavigationController.topViewController  isKindOfClass:[DeepLinkController class]])
+                    {
+                        if( [frntNavigationController.topViewController respondsToSelector:@selector(viewDidAppear:)])
+                        {
+                            [frntNavigationController.topViewController performSelector:@selector(viewDidAppear:) withObject:[NSNumber numberWithBool:YES]];
+                        }
+                    }
+                    else
+                    {
+                        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:DeepLinkController];
+                        [revealController setFrontViewController:navController animated:NO];
+                    }
+                }
+                
             }
+            
         }
         
     }
@@ -906,14 +1119,6 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
         }
     }
     
-}
-
-
-
-
--(void)closeSession
-{
-    [FBSession.activeSession closeAndClearTokenInformation];
 }
 
 
@@ -977,6 +1182,164 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
 }
 
 
+- (void)openSession:(BOOL)isAdmin
+{
+    isForFBPageAdmin=isAdmin;
+    
+    NSArray *permissions =  [NSArray arrayWithObjects:
+                             @"publish_stream",
+                             @"manage_pages"
+                             ,nil];
+    
+    
+    
+    [FBSession openActiveSessionWithPublishPermissions:permissions defaultAudience:FBSessionDefaultAudienceEveryone allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState state, NSError *error)
+     {
+         //[self sessionStateChanged:session state:state error:error];
+         
+     }];
+    
+}
+
+- (void)sessionStateChanged:(FBSession *)session
+                      state:(FBSessionState)state
+                      error:(NSError *)error
+{    switch (state)
+    {
+        case FBSessionStateOpen:
+        {
+            if (isForFBPageAdmin)
+            {
+                [self connectAsFbPageAdmin];
+            }
+            
+            else
+            {
+                [self populateUserDetails];
+            }
+        }
+            
+            break;
+            
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed:
+        {
+            if (isForFBPageAdmin)
+            {
+                isFBPageAdminDeSelected=YES;
+            }
+            
+            else
+            {
+                isFBDeSelected=YES;
+            }
+            [FBSession.activeSession closeAndClearTokenInformation];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+
+-(void)populateUserDetails
+{
+    NSString * accessToken = [[FBSession activeSession] accessTokenData].accessToken;
+    
+    [userDefaults setObject:accessToken forKey:@"NFManageFBAccessToken"];
+    
+    [userDefaults synchronize];
+    
+    [[FBRequest requestForMe] startWithCompletionHandler:
+     ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error)
+     {
+         if (!error)
+         {
+             [userDefaults setObject:[user objectForKey:@"id"] forKey:@"NFManageFBUserId"];
+             [userDefaults synchronize];
+             [FBSession.activeSession closeAndClearTokenInformation];
+         }
+         else
+         {
+             [self openSession:NO];
+         }
+     }
+     ];
+}
+
+-(void)connectAsFbPageAdmin
+{
+    [[FBRequest requestForGraphPath:@"me/accounts"]
+     startWithCompletionHandler:
+     ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error)
+     {
+         if (!error)
+         {
+             //NSLog(@"user:%d",[[user objectForKey:@"data"] count]);
+             
+             if ([[user objectForKey:@"data"] count]>0)
+             {
+                 NSMutableArray *userAdminInfo=[[NSMutableArray alloc]init];
+                 
+                 [userAdminInfo addObjectsFromArray:[user objectForKey:@"data"]];
+                 
+                 [self assignFbDetails:[user objectForKey:@"data"]];
+                 
+                 for (int i=0; i<[userAdminInfo count]; i++)
+                 {
+                     
+                     [fbUserAdminArray insertObject:[[userAdminInfo objectAtIndex:i]objectForKey:@"name" ] atIndex:i];
+                     
+                     [fbUserAdminAccessTokenArray insertObject:[[userAdminInfo objectAtIndex:i]objectForKey:@"access_token" ] atIndex:i];
+                     
+                     [fbUserAdminIdArray insertObject:[[userAdminInfo objectAtIndex:i]objectForKey:@"id" ] atIndex:i];
+                 }
+                 
+                 [[NSNotificationCenter defaultCenter] postNotificationName:@"showAccountList" object:nil];
+             }
+             
+             else
+             {
+                 
+                 UIAlertView *alerView=[[UIAlertView alloc]initWithTitle:@"Oops" message:@"You donot have pages to manage" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil, nil];
+                 
+                 [alerView show];
+                 
+                 alerView=nil;
+                 
+             }
+             
+             [FBSession.activeSession closeAndClearTokenInformation];
+             
+         }
+         else
+         {
+             [self openSession:YES];
+         }
+     }
+     ];
+    
+}
+
+
+
+-(void)closeSession
+{
+    
+    [FBSession.activeSession closeAndClearTokenInformation];
+    
+}
+
+
+-(void)assignFbDetails:(NSArray*)sender
+{
+    
+    [userDefaults setObject:sender forKey:@"NFManageUserFBAdminDetails"];
+    
+    [userDefaults synchronize];
+    
+}
+
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     
@@ -984,6 +1347,10 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
     [AarkiContact registerApp:@"rf0D8FTt9qYz8EYwbdTEybNAZ7xm"];
     
     [MobileAppTracker measureSession];
+    
+    [FBSettings setDefaultAppID:@"539836972828386"];
+    
+    [FBAppEvents activateApp];
     
     
     
@@ -994,6 +1361,9 @@ NSString *const ttbDomainCombo = @"ttbDomainCombo";
 
 
 }
+
+
+
 
 
 - (void)applicationWillTerminate:(UIApplication *)application

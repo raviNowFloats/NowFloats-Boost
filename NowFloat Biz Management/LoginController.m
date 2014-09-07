@@ -525,7 +525,8 @@
                 NSString *countryCode = [appDelegate.storeDetailDictionary objectForKey:@"CountryPhoneCode"];
                 
                 NSNumber *noads = [NSNumber numberWithBool:NO];
-                if([[appDelegate.storeDetailDictionary objectForKey:@"PaymentLevel"] floatValue]<10)
+                
+                if([[appDelegate.storeDetailDictionary objectForKey:@"PaymentLevel"] floatValue] > 10)
                 {
                     noads = [NSNumber numberWithBool:YES];
                 }
@@ -534,6 +535,7 @@
                 
                 
                 NSNumber *TOB = [NSNumber numberWithBool:NO];
+                
                 if([widgetsArray containsObject:@"TOB"])
                 {
                     TOB = [NSNumber numberWithBool:YES];
@@ -581,13 +583,23 @@
                     storeDesc = [NSNumber numberWithBool:YES];
                 }
                 
-                 int noOfUpdates = [appDelegate.dealDescriptionArray count];
+                
+                
+                int noOfUpdates = [appDelegate.dealDescriptionArray count];
                 
                 NSNumber *updateCount = [NSNumber numberWithInt:noOfUpdates];
                 
                 NSNumber *isLoggedOn = [NSNumber numberWithBool:YES];
                 
                 NSDate *lastLoginDate = [NSDate date];
+                
+                NSNumber *autoseo = [NSNumber numberWithBool:NO];
+                
+                if([appDelegate.storeWidgetArray containsObject:@"SITESENSE"])
+                {
+                    autoseo = [NSNumber numberWithBool:YES];
+                }
+                
                 NSDictionary *specialProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                                    appDelegate.storeEmail, @"$email",
                                                    appDelegate.businessName, @"$name",
@@ -603,6 +615,7 @@
                                                    isLoggedOn,@"$LoggedIn",
                                                    lastLoginDate,@"$lastLoginDate",
                                                    updateCount,@"$UpdateCount",
+                                                   autoseo,@"$SEO",
                                                    nil];
                 
                 

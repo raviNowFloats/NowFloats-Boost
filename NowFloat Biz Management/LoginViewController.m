@@ -814,7 +814,7 @@ NSMutableArray *fbb;
                 NSString *countryCode = [appDelegate.storeDetailDictionary objectForKey:@"CountryPhoneCode"];
                 
                 NSNumber *noads = [NSNumber numberWithBool:NO];
-                if([[appDelegate.storeDetailDictionary objectForKey:@"PaymentLevel"] floatValue]<10)
+                if([[appDelegate.storeDetailDictionary objectForKey:@"PaymentLevel"] floatValue]>10)
                 {
                     noads = [NSNumber numberWithBool:YES];
                 }
@@ -878,6 +878,14 @@ NSMutableArray *fbb;
                 
                 NSDate *lastLoginDate = [NSDate date];
                 
+                 NSNumber *autoseo = [NSNumber numberWithBool:NO];
+                
+                if([appDelegate.storeWidgetArray containsObject:@"SITESENSE"])
+                {
+                    autoseo = [NSNumber numberWithBool:YES];
+                }
+                NSLog(@"App dict is %@",appDelegate.dealDescriptionArray);
+                
                 NSDictionary *specialProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                                    appDelegate.storeEmail, @"$email",
                                                    appDelegate.businessName, @"$name",
@@ -893,6 +901,7 @@ NSMutableArray *fbb;
                                                    isLoggedOn,@"$LoggedIn",
                                                    lastLoginDate,@"$lastLoginDate",
                                                    updateCount,@"$UpdateCount",
+                                                   autoseo,@"$SEO",
                                                    nil];
 
                 
