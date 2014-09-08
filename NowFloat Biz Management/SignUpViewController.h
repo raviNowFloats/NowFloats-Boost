@@ -306,4 +306,29 @@
 @property (strong, nonatomic) IBOutlet UISearchBar *countrySearchbar;
 
 
+@property (strong, nonatomic) IBOutlet UITextField *businessText;
+@property (strong, nonatomic) IBOutlet UITextField *cityText;
+
+@property (strong, nonatomic) IBOutlet UITextField *countryText;
+@property (strong, nonatomic) IBOutlet UITextField *emailText;
+
+
+@property (strong, nonatomic) IBOutlet UITextField *mobText;
+
+@property (strong, nonatomic) IBOutlet UIButton *categButton;
+- (IBAction)selectCategry:(id)sender;
+
+- (IBAction)selectCountry:(id)sender;
+
+- (IBAction)nextAction:(id)sender;
+
+
+- (IBAction)previousAction:(id)sender;
+
+- (IBAction)DoneAction:(id)sender;
+
+@property (strong, nonatomic) IBOutlet UIView *optionView;
+
+@property (strong, nonatomic) IBOutlet UIView *controllerView;
+
 @end

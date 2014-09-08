@@ -486,6 +486,12 @@ typedef enum
     notificationType = 0;
     
     
+    appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(![appDelegate.socialNetworkNameArray count]==0)
+    {
+        [self customalert:@"" Seen:@"" category:5];
+    }
     
     if([uploadText isEqualToString:@"YES"])
     {
@@ -6167,8 +6173,6 @@ typedef enum
         errorView.frame=CGRectMake(0, -80, 320, 66);
         
         
-        
-        
     }
     else if(type==3)
     {
@@ -6180,6 +6184,30 @@ typedef enum
         TimeLabel.text   = lastSeen;
         errorView.frame=CGRectMake(0, -80, 320, 66);
         
+    }
+    else if(type==4)
+    {
+        errorView.backgroundColor = [UIColor colorWithRed:0.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:1.0];
+        typeImage.image = [UIImage imageNamed:@"Banner-Refer_alert.png"];
+        someoneLabel.text =@"Invite your Friends to use";
+        someoneLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+        vistedLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+        someoneLabel.frame =CGRectMake(82, 20, 200, 20);
+        vistedLabel.frame =CGRectMake(232, 20, 200, 20);
+        vistedLabel.text =@"Share";
+        errorView.frame=CGRectMake(0, -80, 320, 66);
+    }
+    else if(type==5)
+    {
+        errorView.backgroundColor = [UIColor colorWithRed:0.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:1.0];
+        typeImage.image = [UIImage imageNamed:@"Banner-Refer_alert.png"];
+        someoneLabel.text =@"Connect with Facebook";
+        someoneLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+        vistedLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+        someoneLabel.frame =CGRectMake(82, 20, 200, 20);
+        vistedLabel.frame =CGRectMake(232, 20, 200, 20);
+        vistedLabel.text =@"";
+        errorView.frame=CGRectMake(0, -80, 320, 66);
     }
     
     
@@ -6239,6 +6267,32 @@ typedef enum
                              [errorView addSubview:TimeLabel];
                              [errorView addSubview:closeButton];
                              
+                         }
+                         else if (type==4)
+                         {
+                             errorView.frame=CGRectMake(0, 0, 320, 66);
+                             referDirect.frame = CGRectMake(0, 0, 320, 66);
+                             messageTableView.frame = CGRectMake(0, 66, messageTableView.frame.size.width, messageTableView.frame.size.height);
+                             
+                             [errorView addSubview:referDirect];
+                             [errorView addSubview:borderImage];
+                             [errorView addSubview:typeImage];
+                             [errorView addSubview:someoneLabel];
+                             [errorView addSubview:vistedLabel];
+                             [errorView addSubview:closeButton];
+                         }
+                         else if (type==5)
+                         {
+                             errorView.frame=CGRectMake(0, 0, 320, 66);
+                             referDirect.frame = CGRectMake(0, 0, 320, 66);
+                             messageTableView.frame = CGRectMake(0, 66, messageTableView.frame.size.width, messageTableView.frame.size.height);
+                             
+                             [errorView addSubview:referDirect];
+                             [errorView addSubview:borderImage];
+                             [errorView addSubview:typeImage];
+                             [errorView addSubview:someoneLabel];
+                             [errorView addSubview:vistedLabel];
+                             [errorView addSubview:closeButton];
                          }
                          
                          [self.view addSubview:errorView];
@@ -6334,14 +6388,29 @@ typedef enum
     
     if (notificationType==2)
     {
-      
+        
         [self closeView];
-            ReferFriendViewController *referScreen = [[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:nil];
-            [self.navigationController pushViewController:referScreen animated:NO];
-            
+        ReferFriendViewController *referScreen = [[ReferFriendViewController alloc] initWithNibName:@"ReferFriendViewController" bundle:nil];
+        [self.navigationController pushViewController:referScreen animated:NO];
+        
         
     }
-    
+    if (notificationType==4)
+    {
+        [self closeView];
+        UIActionSheet *selectAction=[[UIActionSheet alloc]initWithTitle:@"Select from" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Message",@"Facebook",@"Twitter",@"Whatsapp", nil];
+        selectAction.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+        selectAction.tag=4;
+        [selectAction showInView:self.view];
+    }
+    if (notificationType==5)
+    {
+        [self closeView];
+        SettingsViewController *facebook=[[SettingsViewController alloc]initWithNibName:@"SettingsViewController" bundle:Nil];
+        facebook.isGestureAvailable = NO;
+        [self.navigationController pushViewController:facebook animated:YES];
+        
+    }
     
 }
 

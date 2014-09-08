@@ -70,6 +70,10 @@
 		4A3CBCD51916A61D00E4A175 /* ReferFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A3CBCD21916A61D00E4A175 /* ReferFriendViewController.m */; };
 		4A3CBCD61916A61D00E4A175 /* ReferFriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A3CBCD31916A61D00E4A175 /* ReferFriendViewController.xib */; };
 		4A3CBCD71916A61D00E4A175 /* ReferFriendViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A3CBCD31916A61D00E4A175 /* ReferFriendViewController.xib */; };
+		4A404BA219B97C690068DB8F /* CropIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A404BA119B97C690068DB8F /* CropIcon.png */; };
+		4A404BA319B97C690068DB8F /* CropIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A404BA119B97C690068DB8F /* CropIcon.png */; };
+		4A404BA519B97C7E0068DB8F /* Rotatecamicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A404BA419B97C7E0068DB8F /* Rotatecamicon.png */; };
+		4A404BA619B97C7E0068DB8F /* Rotatecamicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A404BA419B97C7E0068DB8F /* Rotatecamicon.png */; };
 		4A4A8A65192B8328008B777E /* Camera-controller-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A4A8A64192B8328008B777E /* Camera-controller-button.png */; };
 		4A4A8A66192B8328008B777E /* Camera-controller-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A4A8A64192B8328008B777E /* Camera-controller-button.png */; };
 		4A4E5D1518F511C900F413EF /* BusinessAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E5D1318F511C900F413EF /* BusinessAddress.m */; };
@@ -1385,8 +1389,6 @@
 		FB29A57B1998739700E74BD0 /* ImageGallery.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB29A5791998739700E74BD0 /* ImageGallery.xib */; };
 		FB3776FB19A082DA00815A92 /* newLock.png in Resources */ = {isa = PBXBuildFile; fileRef = FB3776FA19A082DA00815A92 /* newLock.png */; };
 		FB3776FD19A0903900815A92 /* New-Offer.png in Resources */ = {isa = PBXBuildFile; fileRef = FB3776FC19A0903900815A92 /* New-Offer.png */; };
-		FB4930CF19750A1A00E5F562 /* CropIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = FB4930CA19750A1A00E5F562 /* CropIcon.png */; };
-		FB4930D219750A1A00E5F562 /* Rotatecamicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FB4930CE19750A1A00E5F562 /* Rotatecamicon.png */; };
 		FB49310919753B4D00E5F562 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB49310719753B4D00E5F562 /* NotificationCell.xib */; };
 		FB4CC10C19865B9C0070E896 /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4CC10A19865B9C0070E896 /* LoginController.m */; };
 		FB4CC10D19865B9C0070E896 /* LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB4CC10B19865B9C0070E896 /* LoginController.xib */; };
@@ -1498,6 +1500,8 @@
 		4A3CBCD11916A61D00E4A175 /* ReferFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferFriendViewController.h; sourceTree = "<group>"; };
 		4A3CBCD21916A61D00E4A175 /* ReferFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferFriendViewController.m; sourceTree = "<group>"; };
 		4A3CBCD31916A61D00E4A175 /* ReferFriendViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferFriendViewController.xib; sourceTree = "<group>"; };
+		4A404BA119B97C690068DB8F /* CropIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CropIcon.png; sourceTree = "<group>"; };
+		4A404BA419B97C7E0068DB8F /* Rotatecamicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rotatecamicon.png; sourceTree = "<group>"; };
 		4A4A8A64192B8328008B777E /* Camera-controller-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Camera-controller-button.png"; sourceTree = "<group>"; };
 		4A4E5D1218F511C900F413EF /* BusinessAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusinessAddress.h; sourceTree = "<group>"; };
 		4A4E5D1318F511C900F413EF /* BusinessAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusinessAddress.m; sourceTree = "<group>"; };
@@ -2574,8 +2578,6 @@
 		FB29A5791998739700E74BD0 /* ImageGallery.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageGallery.xib; sourceTree = "<group>"; };
 		FB3776FA19A082DA00815A92 /* newLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newLock.png; sourceTree = "<group>"; };
 		FB3776FC19A0903900815A92 /* New-Offer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "New-Offer.png"; sourceTree = "<group>"; };
-		FB4930CA19750A1A00E5F562 /* CropIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CropIcon.png; path = ../../../Downloads/NFcameraOverlay/CropIcon.png; sourceTree = "<group>"; };
-		FB4930CE19750A1A00E5F562 /* Rotatecamicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Rotatecamicon.png; path = ../../../Downloads/NFcameraOverlay/Rotatecamicon.png; sourceTree = "<group>"; };
 		FB49310719753B4D00E5F562 /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
 		FB4CC10919865B9C0070E896 /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		FB4CC10A19865B9C0070E896 /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
@@ -3141,11 +3143,11 @@
 		561C450718DE7A3300DBD8DE /* NFCameraOverlay */ = {
 			isa = PBXGroup;
 			children = (
+				4A404BA419B97C7E0068DB8F /* Rotatecamicon.png */,
+				4A404BA119B97C690068DB8F /* CropIcon.png */,
 				FB0E870F198BB06E00F97C65 /* NFCropOverlay.h */,
 				FB0E8710198BB06E00F97C65 /* NFCropOverlay.m */,
 				FB0E8711198BB06E00F97C65 /* NFCropOverlay.xib */,
-				FB4930CA19750A1A00E5F562 /* CropIcon.png */,
-				FB4930CE19750A1A00E5F562 /* Rotatecamicon.png */,
 				4A17059E191CB2BF007F3709 /* PECropRectView.h */,
 				4A17059F191CB2BF007F3709 /* PECropRectView.m */,
 				4A1705A0191CB2BF007F3709 /* PECropView.h */,
@@ -5306,7 +5308,6 @@
 				56C5A91717350C3400946544 /* triangle.png in Resources */,
 				4A9B164E1920EB5600C51BAB /* HSTutorial.png in Resources */,
 				56C5A9191735136E00946544 /* bottom_cell.png in Resources */,
-				FB4930D219750A1A00E5F562 /* Rotatecamicon.png in Resources */,
 				56C5A91E173562A300946544 /* menu-bg-hover.png in Resources */,
 				FB2666A119AF3C710044EF8F /* City.png in Resources */,
 				FB0263A219AE1DD100518FFD /* Score5.png in Resources */,
@@ -5547,6 +5548,7 @@
 				56504A6E18FFDAD000CB5BFD /* keyboardnext.png in Resources */,
 				565BD88718802DE400A3B913 /* NFBizStore-SEO.png in Resources */,
 				4A19DBB71976921E0096A802 /* domain_check.png in Resources */,
+				4A404BA219B97C690068DB8F /* CropIcon.png in Resources */,
 				56ECB9591792ED1600B5238F /* SearchQueryViewController.xib in Resources */,
 				56DFE83717939F1B00740605 /* searchiconwhite.png in Resources */,
 				56424258187460B50016B38D /* updatemsg popup.png in Resources */,
@@ -5560,9 +5562,9 @@
 				FB0E8713198BB06E00F97C65 /* NFCropOverlay.xib in Resources */,
 				56A297A517A7EA1C0084EF55 /* invalid.png in Resources */,
 				56D0F4AA17AA7C0C0081F592 /* mappin.png in Resources */,
+				4A404BA519B97C7E0068DB8F /* Rotatecamicon.png in Resources */,
 				56D0F4AC17AA80C40081F592 /* mappin12.png in Resources */,
 				FB26672919B069910044EF8F /* Media.xcassets in Resources */,
-				FB4930CF19750A1A00E5F562 /* CropIcon.png in Resources */,
 				561AB5AE18CDB2E000948E6A /* Lato-Italic.ttf in Resources */,
 				56D0F4AE17AACD090081F592 /* listofstates.plist in Resources */,
 				4A1C07C119213852002602B8 /* Google-places-banner-V1.png in Resources */,
@@ -5707,6 +5709,7 @@
 				5631F7D218F8629F00D99131 /* ttb+com biz.png in Resources */,
 				5631F7D318F8629F00D99131 /* facebook_Share_On.png in Resources */,
 				5631F7D418F8629F00D99131 /* NowFloats iPhone App Icon - 114x114.png in Resources */,
+				4A404BA619B97C7E0068DB8F /* Rotatecamicon.png in Resources */,
 				5631F7D518F8629F00D99131 /* signupinfo.png in Resources */,
 				5631F7D618F8629F00D99131 /* facebook_icon.png in Resources */,
 				5631F7D718F8629F00D99131 /* NFCameraOverlay.xib in Resources */,
@@ -5862,6 +5865,7 @@
 				5631F85818F8629F00D99131 /* userBgleft.png in Resources */,
 				5631F85918F8629F00D99131 /* Default.png in Resources */,
 				5631F85A18F8629F00D99131 /* userbgmiddle.png in Resources */,
+				4A404BA319B97C690068DB8F /* CropIcon.png in Resources */,
 				5631F85B18F8629F00D99131 /* postupdatelineimg.png in Resources */,
 				5631F85C18F8629F00D99131 /* userBgright.png in Resources */,
 				5631F85D18F8629F00D99131 /* customercare.png in Resources */,

@@ -22,10 +22,14 @@
 #import "TutorialViewController.h"
 #import "GetFpAddressDetails.h"
 #import "NFActivityView.h"
+#import "SBJson.h"
+#import "SBJsonWriter.h"
+
 @interface BookDomainnController ()<RegisterChannelDelegate,PopUpDelegate,UIAlertViewDelegate>
 {
   
-    
+    UIImage *uploadImage;
+    int successCode;
 }
 @end
 
@@ -62,9 +66,10 @@
     [self.view addSubview:activity];
     [activity startAnimating];
     
+    uploadImage = [[UIImage alloc]init];
+    
     [[self navigationController] setNavigationBarHidden:YES animated:YES];
     appDelegate=(AppDelegate *)[[UIApplication sharedApplication] delegate];
-    // Do any additional setup after loading the view from its nib.
     
     suggestedUrltextView.text = suggestedURL;
     
@@ -97,6 +102,40 @@
     _verifyAddress.delegate=self;
     [_verifyAddress downloadFpAddressDetails:addressValue];
     
+    NSString *imageUrlString = primaryImageURL;
+    NSURL *url = [NSURL URLWithString:imageUrlString];
+    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
+    uploadImage = [UIImage imageWithData:data];
+    
+    
+    
+    NSString *uuid = [[NSProcessInfo processInfo] globallyUniqueString];
+    
+    NSRange range = NSMakeRange (0,5);
+    
+    uuid=[uuid substringWithRange:range];
+    
+    NSCharacterSet *removeCharSet = [NSCharacterSet characterSetWithCharactersInString:@"-"];
+    
+    uuid = [[uuid componentsSeparatedByCharactersInSet: removeCharSet] componentsJoinedByString: @""];
+    
+    NSString *imageName=[NSString stringWithFormat:@"%@.jpg",uuid];
+    
+    NSData* imageData = UIImageJPEGRepresentation(uploadImage, 0.1);
+    
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    NSString* documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString* fullPathToFile = [documentsDirectory stringByAppendingPathComponent:imageName];
+    
+    appDelegate.primaryImageUploadUrl=[NSMutableString stringWithFormat:@"local%@",fullPathToFile];
+    
+    [imageData writeToFile:fullPathToFile atomically:NO];
+    
+    appDelegate.primaryImageUri=[NSMutableString stringWithFormat:@"%@",appDelegate.primaryImageUploadUrl];
+    
+
     
 }
 
@@ -188,7 +227,7 @@
     
     if (suggestedUrltextView.text.length==0)
     {
-       
+        
         
         [self word:@"Oops! Store domain cannot be empty " isSuccess:NO];
         
@@ -242,7 +281,7 @@
             
         }
         
-
+        
         regiterDetails=[[NSMutableDictionary alloc]initWithObjectsAndKeys:
                         appDelegate.clientId,@"clientId",
                         suggestedUrltextView.text,@"tag",
@@ -281,7 +320,194 @@
 -(void)signUpDidSucceedWithFpId:(NSString *)responseString
 {
     [self showBizMessageView:responseString];
+    
 }
+
+-(void)setFblikebox
+{
+    NSMutableArray *uploadArray = [[NSMutableArray alloc]init];
+    NSDictionary *upLoadDictionary1=[[NSDictionary alloc]init];
+    
+    upLoadDictionary1=@{@"value":@"#FEATUREDIMAGE#CONTACTDETAILS#VISITORCOUNT#SUBSCRIBERCOUNT#SOCIALSHARE#FBLIKEBOX",@"key":@"WEBWIDGETS"};
+    [uploadArray  addObject:upLoadDictionary1];
+    
+    SBJsonWriter *jsonWriter=[[SBJsonWriter alloc]init];
+    
+    appDelegate=(AppDelegate *)[[UIApplication sharedApplication ]delegate];
+    
+    NSDictionary *updateDic =
+    @{
+      @"fpTag":[appDelegate.storeDetailDictionary objectForKey:@"Tag"],
+      @"clientId":appDelegate.clientId,
+      @"updates":uploadArray
+      };
+    
+    NSLog(@"updateDic:%@",updateDic);
+    
+    NSString *updateString=[jsonWriter stringWithObject:updateDic];
+    
+    [uploadArray removeAllObjects];
+    
+    NSData *postData = [updateString dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    NSString *urlString=[NSString stringWithFormat:
+                         @"%@/update/",appDelegate.apiWithFloatsUri];
+    
+    NSURL *uploadUrl=[NSURL URLWithString:urlString];
+    
+    NSMutableURLRequest *uploadRequest = [NSMutableURLRequest requestWithURL:uploadUrl];
+    [uploadRequest setHTTPMethod:@"POST"];
+    
+    [uploadRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    [uploadRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    [uploadRequest setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    [uploadRequest setHTTPBody:postData];
+    
+    [NSURLConnection sendAsynchronousRequest:uploadRequest
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+         
+         int code = [httpResponse statusCode];
+         
+         NSLog(@"code:%d",code);
+         
+         
+         if (code==200)
+         {
+             
+         }
+         
+         else
+         {
+             
+         }
+         
+         
+     }];
+    
+}
+
+-(void)uploadFeatureImage
+{
+    
+    NSData *dataObj = [[NSData alloc]init];
+    
+    NSUserDefaults *userDefaults = [[NSUserDefaults alloc]init];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];
+    
+    NSMutableArray *chunkArray = [[NSMutableArray alloc]init];
+    NSString *uuid = [[NSProcessInfo processInfo] globallyUniqueString];
+    
+    NSRange range = NSMakeRange (0, 36);
+    
+    uuid=[uuid substringWithRange:range];
+    
+    NSCharacterSet *removeCharSet = [NSCharacterSet characterSetWithCharactersInString:@"-"];
+    
+    uuid = [[uuid componentsSeparatedByCharactersInSet: removeCharSet] componentsJoinedByString: @""];
+    
+    NSString *uniqueIdString=[[NSString alloc]initWithString:uuid];
+    
+    UIImage *img = uploadImage;
+    
+    dataObj=UIImageJPEGRepresentation(img,0.1);
+    
+    NSUInteger length = [dataObj length];
+    
+    NSUInteger chunkSize = 3000*10;
+    
+    NSUInteger offset = 0;
+    
+    int numberOfChunks=0;
+    int totalImageDataChunks = 0;
+    
+    do
+    {
+        NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
+        
+        NSData* chunk = [NSData dataWithBytesNoCopy:(char *)[dataObj bytes] + offset
+                                             length:thisChunkSize
+                                       freeWhenDone:NO];
+        offset += thisChunkSize;
+        
+        [chunkArray insertObject:chunk atIndex:numberOfChunks];
+        
+        numberOfChunks++;
+        
+    }
+    
+    while (offset < length);
+    
+    totalImageDataChunks=[chunkArray count];
+    
+    
+    
+    for (int i=0; i<[chunkArray count]; i++)
+    {
+        
+        NSString *urlString=[NSString stringWithFormat:@"%@/createImage?clientId=%@&fpId=%@&reqType=parallel&reqtId=%@&totalChunks=%d&currentChunkNumber=%d",appDelegate.apiWithFloatsUri,appDelegate.clientId,[userDefaults objectForKey:@"userFpId"],uniqueIdString,[chunkArray count],i];
+        
+        NSLog(@"urlString:%@",urlString);
+        
+        NSString *postLength=[NSString stringWithFormat:@"%ld",(unsigned long)[[chunkArray objectAtIndex:i] length]];
+        
+        urlString=[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        NSURL *uploadUrl=[NSURL URLWithString:urlString];
+        
+        NSMutableData *tempData =[[NSMutableData alloc]initWithData:[chunkArray objectAtIndex:i]] ;
+        
+        [request setURL:uploadUrl];
+        [request setTimeoutInterval:30000];
+        [request setHTTPMethod:@"PUT"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"binary/octet-stream" forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:tempData];
+        [request setCachePolicy:NSURLCacheStorageAllowed];
+        
+        [NSURLConnection sendAsynchronousRequest:request
+                                           queue:[NSOperationQueue mainQueue]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+         {
+             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+             int code = [httpResponse statusCode];
+             
+             if (code==200)
+             {
+                 successCode++;
+                 
+                 if (successCode==totalImageDataChunks)
+                 {
+                     
+                     
+                 }
+             }
+             
+             else
+             {
+                 
+                 [self word:@"Uh Oh! Something went wrong. Please try again" isSuccess:NO];
+                 
+             }
+             
+             
+             
+             
+         }];
+        
+        
+    }
+    
+    
+}
+
 
 -(void)signUpDidFailWithError
 {
@@ -326,6 +552,8 @@
     
     [userDefaults synchronize];
     
+     [self uploadFeatureImage];
+    
     /*Get all the messages and store details*/
     
     GetFpDetails *getDetails=[[GetFpDetails alloc]init];
@@ -356,6 +584,7 @@
     else
     {
         [self navigateBizMessageView];
+        [self setFblikebox];
     }
 }
 

@@ -125,6 +125,7 @@
     BOOL isForFBPageAdmin;
     NSMutableArray *token_id;
     NSMutableDictionary *page_det;
+    int responder;
 }
 
 @end
@@ -155,6 +156,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    responder = 0;
     
     userDefaults=[NSUserDefaults standardUserDefaults];
  
@@ -781,6 +783,45 @@
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     
+   
+    
+    if(textField.tag==300)
+    {
+        self.controllerView.frame = CGRectMake(0, 0, 320, viewHeight);
+        self.optionView.frame = CGRectMake(0, 296, 320, 36);
+        responder= 1;
+       
+    }
+    else if (textField.tag==301)
+    {
+        self.controllerView.frame = CGRectMake(0, 0, 320, viewHeight);
+        self.optionView.frame = CGRectMake(0, 296, 320, 36);
+
+        responder= 3;
+    }
+    else if (textField.tag==302)
+    {
+        self.controllerView.frame = CGRectMake(0, -40, 320, viewHeight);
+        self.optionView.frame = CGRectMake(0, 296, 320, 36);
+
+        responder= 4;
+        
+    }
+    else if (textField.tag==303)
+    {
+        self.controllerView.frame = CGRectMake(0, -80, 320, viewHeight);
+        self.optionView.frame = CGRectMake(0, 296, 320, 36);
+        responder= 5;
+    }
+    else if (textField.tag==304)
+    {
+        self.controllerView.frame = CGRectMake(0, -120, 320, viewHeight);
+        self.optionView.frame = CGRectMake(0, 296, 320, 36);
+        responder= 6;
+    }
+    
+    
+    
     tfTag = textField.tag;
     newText = textField;
     
@@ -1039,6 +1080,10 @@
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
+    
+    
+    
+    
     
     if (textField.tag==3 || textField.tag ==4 || textField.tag== 7 || textField.tag==8 || textField.tag == 9 || textField.tag ==10 )
     {
@@ -2568,17 +2613,20 @@
     if (_pickerView.tag==1)
     {
     text=[[[categoryArray objectAtIndex: row] lowercaseString] stringByConvertingCamelCaseToCapitalizedWords];
+        responder = 2;
     }
     
     if (_pickerView.tag==2)
     {
     text=[[[countryListArray objectAtIndex: row] lowercaseString] stringByConvertingCamelCaseToCapitalizedWords];
+        responder = 7;
     }
     
     
     if (_pickerView.tag==3) {
         
     text=[[[countryListArray objectAtIndex: row] lowercaseString] stringByConvertingCamelCaseToCapitalizedWords];
+        responder = 7;
         
     }
     
@@ -2657,6 +2705,7 @@
    // [categoryArray removeAllObjects];
     
     [self.view endEditing:YES];
+    pickerViewSubView.frame = CGRectMake(0, 350, 320, 400);
     
     [self.view addSubview:pickerViewSubView];
     
@@ -3532,4 +3581,89 @@ didChangeDragState:(MKAnnotationViewDragState)newState
 
 
 
+- (IBAction)selectCategry:(id)sender {
+}
+
+- (IBAction)selectCountry:(id)sender {
+}
+
+- (IBAction)nextAction:(id)sender {
+    
+    if(responder==1)
+    {
+        
+       [self showPickerCategory];
+        
+    }
+    else if(responder==2)
+    {
+         [self.cityText becomeFirstResponder];
+         [pickerViewSubView removeFromSuperview];
+    }
+    else if(responder==3)
+    {
+         [self.countryText becomeFirstResponder];
+    }
+    else if(responder==4)
+    {
+        [self.emailText becomeFirstResponder];
+    }
+    else if(responder==5)
+    {
+        [self.mobText becomeFirstResponder];
+    }
+    else if(responder==6)
+    {
+        [self.view endEditing:YES];
+        countryPickerSubView.frame = CGRectMake(0, 350, 320, 400);
+        [self.view addSubview:countryPickerSubView];
+
+    }
+    else if(responder==7)
+    {
+       
+        
+    }
+}
+
+- (IBAction)previousAction:(id)sender {
+    
+    if(responder==1)
+    {
+        
+    }
+    else if(responder==2)
+    {
+        [self.businessText becomeFirstResponder];
+        [pickerViewSubView removeFromSuperview];
+    }
+    else if(responder==3)
+    {
+         [self showPickerCategory];
+    }
+    else if(responder==4)
+    {
+       [self.cityText becomeFirstResponder];
+    }
+    else if(responder==5)
+    {
+       [self.countryText becomeFirstResponder];
+    }
+    else if(responder==6)
+    {
+       
+        [self.emailText becomeFirstResponder];
+    }
+    else if(responder==7)
+    {
+        
+        [self.mobText becomeFirstResponder];
+        [countryPickerSubView removeFromSuperview];
+    }
+}
+
+
+
+- (IBAction)DoneAction:(id)sender {
+}
 @end

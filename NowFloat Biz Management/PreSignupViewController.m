@@ -98,13 +98,13 @@
     
     
     mixPanel =[Mixpanel sharedInstance];
-   
+    
     
     token_id = [[NSMutableArray alloc]init];
     page_det = [[NSMutableDictionary alloc]init];
     
     
-  
+    
     
     
     facebookLogin.readPermissions =@[@"user_hometown",@"user_location",@"email",@"basic_info"];
@@ -150,9 +150,9 @@
     activity.color = [UIColor whiteColor];
     activity.backgroundColor = [UIColor darkGrayColor];
     [self.view addSubview:activity];
-  
     
-
+    
+    
     
 }
 
@@ -164,7 +164,7 @@
 
 -(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
-     [mixPanel track:@"SignupwithFacebook"];
+    [mixPanel track:@"SignupwithFacebook"];
     
     [activity startAnimating];
     [FBRequestConnection startWithGraphPath:@"me/"
@@ -369,6 +369,35 @@
         fbPageName = [fbPageName stringByReplacingOccurrencesOfString:@"https://www.facebook.com/" withString:@""];
     }
     
+    NSString *fbpage;
+    
+    
+    for(int i = 0 ;i < fbPageName.length ; i++)
+    {
+        if(![[NSString stringWithFormat:@"%c", [fbPageName characterAtIndex:i]]isEqualToString:@"/"])
+        {
+            
+            
+            if(i==0)
+            {
+                fbpage =[NSString stringWithFormat:@"%c",[fbPageName characterAtIndex:i]];
+                
+            }
+            else
+            {
+                fbpage = [fbpage stringByAppendingString:[NSString stringWithFormat:@"%c",[fbPageName characterAtIndex:i]]];
+            }
+            
+        }
+        else
+        {
+            break;
+        }
+        
+    }
+    
+    fbPageName = fbpage;
+    
     
     if([[profileImage objectForKey:@"data"] count]==0)
     {
@@ -422,9 +451,11 @@
         fbsign.primaryImageURL = primaryImagURL;
         fbsign.pageDescription = pageDescription;
         fbsign.fbPagename      = fbPageName;
+        fbsign.pincode         = pinCode;
+        fbsign.addressValue    = addressValue;
         [self.navigationController pushViewController:fbsign animated:YES];
         [activity stopAnimating];
-
+        
         
     }
     
@@ -888,7 +919,7 @@
 
 - (IBAction)mailRegisteration:(id)sender {
     
-     [mixPanel track:@"SignupwithEmail"];
+    [mixPanel track:@"SignupwithEmail"];
     
     SignUpViewController *signup = [[SignUpViewController alloc]initWithNibName:@"SignUpViewController" bundle:nil];
     
@@ -905,7 +936,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-
+    
     navigationLabel.text =@"";
     navigationLabel=nil;
     [navigationLabel removeFromSuperview];

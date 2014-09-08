@@ -162,12 +162,12 @@ NSString *const sitemeter = @"sitemeter";
     
     feedFacebook = [[NSMutableDictionary alloc] init];
     
-    apiWithFloatsUri=@"https://api.withfloats.com/Discover/v1/floatingPoint";
-    apiUri=@"https://api.withfloats.com";
+//    apiWithFloatsUri=@"https://api.withfloats.com/Discover/v1/floatingPoint";
+//    apiUri=@"https://api.withfloats.com";
 
     
-//    apiWithFloatsUri=@"http://api.nowfloatsdev.com/Discover/v1/floatingPoint";
-//    apiUri=@"http://api.nowfloatsdev.com";
+    apiWithFloatsUri=@"http://api.nowfloatsdev.com/Discover/v1/floatingPoint";
+    apiUri=@"http://api.nowfloatsdev.com";
 
 
     
@@ -690,11 +690,49 @@ NSString *const sitemeter = @"sitemeter";
     }
     else
     {
-        return true;
+        return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication fallbackHandler:^(FBAppCall *call)
+                {
+                    if (call.accessTokenData)
+                    {
+                        if ([FBSession activeSession].isOpen)
+                        {
+                            NSLog(@"INFO: Ignoring app link because current session is open.");
+                        }
+                        
+                        else
+                            
+                        {
+                            [self handleAppLink:call.accessTokenData];
+                        }
+                    }
+                }];
     }
+
 
     
 }
+
+- (void)handleAppLink:(FBAccessTokenData *)appLinkToken
+{
+    FBSession *appLinkSession = [[FBSession alloc] initWithAppID:nil
+                                                     permissions:nil
+                                                 defaultAudience:FBSessionDefaultAudienceNone
+                                                 urlSchemeSuffix:nil
+                                              tokenCacheStrategy:[FBSessionTokenCachingStrategy nullCacheInstance] ];
+    
+    [FBSession setActiveSession:appLinkSession];
+    
+    // ... and open it from the App Link's Token.
+    [appLinkSession openFromAccessTokenData:appLinkToken
+                          completionHandler:^(FBSession *session, FBSessionState status, NSError *error)
+     {
+         if (error)
+         {
+             [_settingsController loginView:nil handleError:error];
+         }
+     }];
+}
+
 
 
 -(void)DeepLinkUrl:(NSURL *) url

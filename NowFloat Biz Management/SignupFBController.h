@@ -22,6 +22,9 @@
 @property(nonatomic,strong) NSString *primaryImageURL;
 @property(nonatomic,strong) NSString *pageDescription;
 @property(nonatomic,strong) NSString *fbPagename;
+@property(nonatomic,strong) NSString *pincode;
+@property(nonatomic,strong) NSString *addressValue;
+
 
 @property (strong,nonatomic)  UIActivityIndicatorView *activity;
 @property (strong, nonatomic) IBOutlet UITextField *cityTextfield;

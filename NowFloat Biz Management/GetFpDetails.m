@@ -246,7 +246,10 @@
     else
     {
     
-        appDelegate.primaryImageUri=[NSMutableString stringWithFormat:@""];
+        if([appDelegate.primaryImageUri isEqualToString:@""])
+        {
+            appDelegate.primaryImageUri=[NSMutableString stringWithFormat:@""];
+        }
     
     }
     

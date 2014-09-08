@@ -22,7 +22,7 @@
     NSString *countryName;
     NSString *countryCode;
     NSString *suggestedURL;
-  
+    
 }
 @end
 
@@ -36,6 +36,8 @@
 @synthesize errorView;
 @synthesize backImage,backLabel,NextImage,nextlabel;
 @synthesize activity;
+@synthesize pincode;
+@synthesize addressValue;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -50,7 +52,7 @@
     [super viewDidLoad];
     
     
-     activity = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activity = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activity.frame = CGRectMake(130, 160, 60, 60);
     activity.layer.cornerRadius = 8.0f;
     activity.layer.masksToBounds = YES;
@@ -78,17 +80,16 @@
     NSLocale *locale = [NSLocale currentLocale];
     NSString *countryCode1 = [locale objectForKey: NSLocaleCountryCode];
     
-    countryName = [locale displayNameForKey: NSLocaleCountryCode
-                                      value: countryCode1];
+   
     
     self.countryLabel.textColor = [UIColor colorWithRed:88.0f/255.0f green:88.0f/255.0f blue:88.0f/255.0f alpha:1.0f];
     
     NSString *version = [[UIDevice currentDevice] systemVersion];
     
     
-        self.navigationController.navigationBarHidden=YES;
-        
-  UIButton*  customRighNavButton=[UIButton buttonWithType:UIButtonTypeSystem];
+    self.navigationController.navigationBarHidden=YES;
+    
+    UIButton*  customRighNavButton=[UIButton buttonWithType:UIButtonTypeSystem];
     
     
     [customRighNavButton addTarget:self action:@selector(editAddress) forControlEvents:UIControlEventTouchUpInside];
@@ -101,7 +102,7 @@
     if (version.floatValue<7.0) {
         
         [customRighNavButton setFrame:CGRectMake(260,21, 60, 30)];
-     
+        
         UIBarButtonItem *rightBarBtn=[[UIBarButtonItem alloc]initWithCustomView:customRighNavButton];
         self.navigationItem.leftBarButtonItem=rightBarBtn;
         
@@ -109,10 +110,16 @@
     else
     {
         [customRighNavButton setFrame:CGRectMake(260,21, 60, 30)];
-       
+        
         UIBarButtonItem *rightBarBtn=[[UIBarButtonItem alloc]initWithCustomView:customRighNavButton];
         self.navigationItem.leftBarButtonItem=rightBarBtn;
     }
+    
+    if([country isEqualToString:@""])
+    {
+    
+    countryName = [locale displayNameForKey: NSLocaleCountryCode
+                                      value: countryCode1];
     
     self.countryLabel.text = countryName;
     NSDictionary *dictDialingCodes = [[NSDictionary alloc]initWithObjectsAndKeys:
@@ -251,6 +258,7 @@
         
         [countryCodeArray insertObject:[[countryJsonArray objectAtIndex:i]objectForKey:@"-phoneCode"] atIndex:i];
         
+    }
     }
     
     [self viewAlign];
@@ -409,7 +417,7 @@
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     
     [mixpanel track:@"country-FBSignup"];
-
+    
     
     countryPickerView.frame = CGRectMake(0, 800, 320, 200);
     [countryButton setTitle:countryName forState:UIControlStateNormal];
@@ -429,7 +437,7 @@
     
     [self.view endEditing:YES];
     
-   
+    
     
     
     NSDictionary *uploadDictionary = [[NSDictionary alloc]init];
@@ -458,7 +466,7 @@
         {
             city = cityTextfield.text;
         }
-       
+        
         if([emailID isEqualToString:@""])
         {
             emailID=emailTextfield.text;
@@ -466,14 +474,14 @@
         
         if(![BusinessName isEqualToString:@""] && ![userName isEqualToString:@""] && ![phono isEqualToString:@""] && ![category isEqualToString:@""] && ![city isEqualToString:@""])
         {
-             [activity startAnimating];
+            [activity startAnimating];
             uploadDictionary=@{@"name":BusinessName,@"city":city,@"country":country,@"category":category,@"clientId":appDelegate.clientId};
             SuggestBusinessDomain *suggestController=[[SuggestBusinessDomain alloc]init];
             suggestController.delegate=self;
             [suggestController suggestBusinessDomainWith:uploadDictionary];
             suggestController =nil;
-           
-
+            
+            
             
         }
         
@@ -500,8 +508,12 @@
         
         [emptyAlertView show];
     }
-    country = countryName;
-    countryCode = self.countryCodeLabel.text;
+    if([country isEqualToString:@""])
+    {
+        country = countryName;
+
+    }
+        countryCode = self.countryCodeLabel.text;
     BookDomainnController *domaincheck = [[BookDomainnController alloc]initWithNibName:@"BookDomainnController" bundle:nil];
     domaincheck.city = city;
     domaincheck.emailID =emailID;
@@ -515,8 +527,16 @@
     domaincheck.primaryImageURL = primaryImageURL;
     domaincheck.pageDescription = pageDescription;
     domaincheck.fbpageName      = fbPagename;
+    domaincheck.pincode         = pincode;
     domaincheck.viewName = @"rem";
+    if([addressValue isEqualToString:@""])
+    {
     domaincheck.addressValue = [NSString stringWithFormat:@"%@,%@",city,country];
+    }
+    else
+    {
+      domaincheck.addressValue = addressValue;
+    }
     [self.navigationController pushViewController:domaincheck animated:YES];
     
     [activity stopAnimating];
